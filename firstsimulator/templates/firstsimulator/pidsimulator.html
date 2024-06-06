@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../../static/css/simulator.css">
+    <meta charset="UTF-8">
+    <title>`PID Simulator`</title>
+    <h2>PIDシミュレータ</h2>
+    <!-- MathJax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax = {
+            chtml: {
+    			displayAlign: "left"
+    		}
+    	};
+    </script>
+
+</head>
+<body>
+{% load static %}
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+    <fieldset>
+        <h3>PID制御器の設定</h3>
+       	<p>
+		\(
+			\displaystyle
+			MV(t) = \frac{100}{P} \left( e(t) + \frac{1}{T_I} \int e(t) \; dt + T_D \frac{d}{dt}e(t) \right)
+		\)
+    	</p>
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% for field in pidform %}
+            {% if not field.is_hidden %}
+            <tr>
+                <td style="padding: 1px ;" align="right" colspan="3">{{ field.label }}</td>
+                <td style="padding: 1px ;">{{ field }}</td>
+                <td style="padding: 1px ;" align="left">{{ field.help_text }}</td>
+            </tr>
+            {% else %}
+            {{ field.as_hidden }}
+            {% endif %}
+        {% endfor %}
+        </table>
+
+
+    </fieldset>
+    <fieldset>
+        <h3>制御対象の伝達関数</h3>
+       	<p>
+		\(
+			\displaystyle
+			Plant(s) = \frac{b_0}{ s^{2} + {a_1}s + {a_0} }
+		\)
+        {% csrf_token %}
+        {{ plantform.as_p }}
+
+    	</p>
+
+    </fieldset>
+    <fieldset>
+        <h3>シミュレーション設定</h3>
+        {% csrf_token %}
+        {{ simform.as_p }}
+    </fieldset>
+    <br>
+        <button name="pidcalc" type="submit" class="save btn btn-default" onclick="">PID制御応答表示！</button>
+    </form>
+    <fieldset>
+        <h2>PV,MV　グラフ表示</h2>
+        <img src="data:image/png;base64, {{ graph | safe }}" alt="">
+    <!--   <img src="{% static 'images/pid_fixedfunctiongraph.png' %}?<?php echo date('ymdHis')?>" /> -->
+        <br>
+    </fieldset>
+    <br>
+    <a href="{% url 'firstsimulator:index'  %}">目次に戻る</a>
+    <br>
+</body>
+</html>

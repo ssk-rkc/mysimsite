@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../../static/css/simulator.css">
+    <meta >
+    <title>ファイルを読み込んでシステム同定する</title>
+    <h2>ファイルを読み込んでシステム同定する</h2>
+</head>
+<body>
+{% load static %}
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit" type="submit" class="save btn btn-default">システム同定実行</button>
+    </form>
+    <br>
+
+    <fieldset>
+        <h2>システム同定結果の伝達関数係数行列を表示</h2>
+        <ul>
+            <li>係数　a0　＝　{{ coef.0 }} </li>
+            <li>係数　a1　＝　{{ coef.1 }} </li>
+            <li>係数　b0　＝　{{ coef.2 }} </li>
+
+        </ul>
+    </fieldset>
+
+    <fieldset>
+        <h2>PV,MV　グラフ表示</h2>
+        <img src="data:image/png;base64, {{ graph | safe }}" alt="">
+        <br>
+        <button type="button" name="display sample" onclick="displaySampleGraph()">サンプルデータを読み込んでグラフ表示(未実装)</button>
+    </fieldset>
+    <br>
+    <a href="{% url 'firstsimulator:index'  %}">目次に戻る</a>
+    <br>
+</body>
+</html>

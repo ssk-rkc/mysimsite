@@ -1,0 +1,60 @@
+<h1>{{ controller.controller_name }} のパラメータ設定</h1>
+ <table>
+     <tr>
+         <td> PV(t) </td>
+         <td>:</td>
+         <td>制御対象の温度 [℃]</td>
+         <td></td>
+     </tr>
+     <tr>
+         <td> SV </td>
+         <td>:</td>
+         <td>設定温度 [℃]</td>
+         <td id="sv">
+             <input type="number" min="25" max="1000" step="1" value="120">
+         </td>
+     </tr>
+     <tr>
+         <td> P </td>
+         <td>:</td>
+         <td>比例帯 [℃]</td>
+         <td id="prop">
+             <input type="number" min="0" max="1500" step="1" value="30">
+         </td>
+     </tr>
+     <tr>
+         <td> T_I </td>
+         <td>:</td>
+         <td>積分時間 [s]</td>
+         <td id="integ">
+             <input type="number" min="0" max="3600" step="1" value="240">
+         </td>
+     </tr>
+     <tr>
+         <td> T_D </td>
+         <td>:</td>
+         <td>微分時間 [s]</td>
+         <td id="deriv">
+             <input type="number" min="0" max="3600" step="1" value="60">
+         </td>
+     </tr>
+		<tr hidden>
+			<td>\(\gamma\)</td>
+			<td>：</td>
+			<td>微分ゲイン [-]</td>
+			<td id="derivGain">
+               <input type="range"  min="1" max="15" step="1" value="4" oninput="syncInput(event)">
+               <input type="number" min="1" max="15" step="1" value="4" oninput="syncInput(event)">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">リセットワインドアップ対策</td>
+			<td>
+				<select id="arw" onchange="syncInput(event)">
+					<option value="OFF" selected>なし</option>
+					<option value="ARW">ARW</option>
+				</select>
+			</td>
+		</tr>
+ </table>
+ <a href="{% url 'firstsimulator:index'  %}">コントローラの選択に戻る</a>
